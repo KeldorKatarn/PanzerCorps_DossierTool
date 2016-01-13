@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:valueConverters="clr-namespace:DossierTool.View.ValueConverters">
+    <valueConverters:UnitAttackValueConverter x:Key="UnitAttackValueConverter" />
+    <valueConverters:BonusToColorConverter x:Key="BonusToColorConverter"
+                                           OnPositiveColor="Lime"
+                                           OnNegativeColor="Orange"
+                                           OnZeroColor="White" />
+    <valueConverters:BoolToColorConverter x:Key="BoolToColorConverter" />
+    <valueConverters:ConcatenationConverter x:Key="ConcatenationConverter" />
+    <valueConverters:AwardIconPathConverter x:Key="AwardIconPathConverter" />
+    <valueConverters:EquipmentIconPathConverter x:Key="EquipmentIconPathConverter" />
+    <valueConverters:DebugConverter x:Key="DebugConverter" />
+    <valueConverters:NullToInvisibleConverter x:Key="NullToInvisibleConverter" />
+    <valueConverters:ButtonVisibilityConverter CheckOkButton="True" x:Key="OkButtonVisibilityConverter" />
+    <valueConverters:ButtonVisibilityConverter CheckYesButton="True" x:Key="YesButtonVisibilityConverter" />
+    <valueConverters:ButtonVisibilityConverter CheckNoButton="True" x:Key="NoButtonVisibilityConverter" />
+    <valueConverters:ButtonVisibilityConverter CheckCancelButton="True" x:Key="CancelButtonVisibilityConverter" />
+    <valueConverters:NoneToInvisibileConverter x:Key="NoneToInvisibileConverter" />
+    <valueConverters:GreaterOrEqualToVisibilityConverter x:Key="GreaterOrEqualToVisibilityConverter" />
+    <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <valueConverters:BoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"
+                                               OnTrue="Collapsed"
+                                               OnFalse="Visible" />
+</ResourceDictionary>

@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="DossierTool.View.UnitScreens.DataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:DossierTool.View.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:unitScreens="clr-namespace:DossierTool.ViewModel.UnitScreens;assembly=DossierTool.ViewModel"
+             d:DataContext="{d:DesignInstance unitScreens:DataViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="50,5" Orientation="Horizontal">
+            <controls:UnitDataControl DataContext="{Binding UnitData}" />
+            <Grid Visibility="{Binding HasTransport, Converter={StaticResource BoolToVisibilityConverter}}">
+                <controls:UnitDataControl DataContext="{Binding TransportData}" />
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

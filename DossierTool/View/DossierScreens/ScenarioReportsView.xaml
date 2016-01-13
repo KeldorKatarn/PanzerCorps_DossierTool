@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="DossierTool.View.DossierScreens.ScenarioReportsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dossierScreens="clr-namespace:DossierTool.ViewModel.DossierScreens;assembly=DossierTool.ViewModel"
+             xmlns:helpers="clr-namespace:DossierTool.View.Helpers"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance dossierScreens:ScenarioReportsViewModel}">
+    <AdornerDecorator>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0"
+                       LastChildFill="True">
+                <WrapPanel x:Name="ButtonPanel"
+                           DockPanel.Dock="Top"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="5">
+                    <WrapPanel Orientation="Horizontal">
+                        <Button x:Name="AddReport"
+                                Content="{StaticResource AddImage}"
+                                ToolTip="Add Report"
+                                Height="Auto"
+                                Width="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="2" />
+                        <Button x:Name="DeleteReport"
+                                Content="{StaticResource DeleteImage}"
+                                ToolTip="Delete Report"
+                                Height="Auto"
+                                Width="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="2" />
+                    </WrapPanel>
+                    <WrapPanel Orientation="Horizontal">
+                        <Button x:Name="MoveReportUp"
+                                Content="{StaticResource MoveUpImage}"
+                                ToolTip="Move Report Up"
+                                Height="Auto"
+                                Width="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="2" />
+                        <Button x:Name="MoveReportDown"
+                                Content="{StaticResource MoveDownImage}"
+                                ToolTip="Move Report Down"
+                                Height="Auto"
+                                Width="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="2" />
+                    </WrapPanel>
+                </WrapPanel>
+                <Button x:Name="GenerateUnitReports"
+                        DockPanel.Dock="Top"
+                        Content="{StaticResource GenerateReportsImage}"
+                        ToolTip="Generate Unit Reports"
+                        MaxWidth="{Binding ActualWidth, ElementName=ButtonPanel}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Padding="2" />
+                <ListBox Grid.Column="0"
+                         ItemsSource="{Binding Dossier.ScenarioReports, Mode=OneWay}"
+                         DisplayMemberPath="ScenarioName"
+                         IsSynchronizedWithCurrentItem="True"
+                         Background="Transparent"
+                         HorizontalContentAlignment="Stretch"
+                         BorderThickness="0"
+                         SelectionChanged="ScrollIntoView">
+                    <ListBox.Resources>
+                        <SolidColorBrush x:Key="TextBrush"
+                                         Color="#FFD2901C" />
+                    </ListBox.Resources>
+                </ListBox>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="0"
+                          HorizontalAlignment="Right"
+                          Background="{StaticResource ShadeBrush}"
+                          Width="2" />
+
+            <ScrollViewer Grid.Column="1"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20"
+                      Visibility="{Binding IsReportSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="300" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0"
+                           Grid.Row="0"
+                           Content="Scenario Name"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           HorizontalContentAlignment="Right"
+                           Foreground="#FFD2901C"
+                           FontWeight="Bold"
+                           FontSize="13.333" />
+                    <TextBox Grid.Column="1"
+                             Grid.Row="0"
+                             Text="{helpers:TextBoxBinding Path=ScenarioName}"
+                             Height="25"
+                             Margin="10,0"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center"
+                             FontSize="13.333" />
+                    <Label Grid.Column="0"
+                           Grid.Row="1"
+                           Content="Outcome"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           HorizontalContentAlignment="Right"
+                           Foreground="#FFD2901C"
+                           FontWeight="Bold"
+                           FontSize="13.333" />
+                    <ComboBox Grid.Column="1"
+                              Grid.Row="1"
+                              ItemsSource="{Binding AvailableOutcomes}"
+                              SelectedItem="{Binding Outcome}"
+                              DisplayMemberPath="Key"
+                              Height="25"
+                              Margin="10,0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              FontSize="13.333" />
+                    <Label Grid.Column="0"
+                           Grid.Row="2"
+                           Content="Prestige"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           HorizontalContentAlignment="Right"
+                           Foreground="#FFD2901C"
+                           FontWeight="Bold"
+                           FontSize="13.333" />
+                    <TextBox Grid.Column="1"
+                             Grid.Row="2"
+                             Text="{helpers:TextBoxBinding Path=Prestige}"
+                             Height="25"
+                             Margin="10,0"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center"
+                             FontSize="13.333" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </AdornerDecorator>
+</UserControl>

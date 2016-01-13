@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="DossierTool.View.StatisticsScreens.PrestigeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ctk="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+             xmlns:ss="clr-namespace:DossierTool.ViewModel.StatisticsScreens;assembly=DossierTool.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance ss:PrestigeViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ctk:Chart Title="Prestige Per Scenario"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="0">
+            <ctk:ColumnSeries ItemsSource="{Binding PrestigePerScenario, IsAsync=True}"
+                              DataPointStyle="{StaticResource PrestigeColumnDataPointStyle}"
+                              IsSelectionEnabled="True"
+                              Background="Transparent"
+                              DependentValuePath="Value"
+                              IndependentValuePath="Key"
+                              Padding="5">
+                <ctk:ColumnSeries.IndependentAxis>
+                    <ctk:CategoryAxis Orientation="X"
+                                      AxisLabelStyle="{StaticResource RotateAxisStyle}" />
+                </ctk:ColumnSeries.IndependentAxis>
+            </ctk:ColumnSeries>
+        </ctk:Chart>
+        <ctk:Chart Title="Prestige Progression"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="1">
+            <ctk:AreaSeries ItemsSource="{Binding PrestigeProgression, IsAsync=True}"
+                            DataPointStyle="{StaticResource PrestigeAreaDataPointStyle}"
+                            IsSelectionEnabled="True"
+                            Background="Transparent"
+                            DependentValuePath="Value"
+                            IndependentValuePath="Key"
+                            Padding="5">
+                <ctk:AreaSeries.IndependentAxis>
+                    <ctk:CategoryAxis Orientation="X"
+                                      AxisLabelStyle="{StaticResource RotateAxisStyle}" />
+                </ctk:AreaSeries.IndependentAxis>
+            </ctk:AreaSeries>
+        </ctk:Chart>
+    </Grid>
+</UserControl>

@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="DossierTool.View.StatisticsScreens.CoreView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ctk="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+             xmlns:ss="clr-namespace:DossierTool.ViewModel.StatisticsScreens;assembly=DossierTool.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance ss:CoreViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ctk:Chart Title="Core Composition"
+                   Style="{StaticResource PieChartStyle}"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="0"
+                   Grid.Column="0">
+            <ctk:PieSeries ItemsSource="{Binding CoreCompositionByUnitType, IsAsync=True}"
+                           Palette="{StaticResource PieSeriesPalette}"
+                           IsSelectionEnabled="True"
+                           Background="Transparent"
+                           DependentValuePath="Value"
+                           IndependentValuePath="Key"
+                           Padding="5" />
+        </ctk:Chart>
+        <ctk:Chart Title="Ground Forces Motorization"
+                   Style="{StaticResource PieChartStyle}"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="1"
+                   Grid.Column="0">
+            <ctk:PieSeries ItemsSource="{Binding CoreMotorization, IsAsync=True}"
+                           Palette="{StaticResource PieSeriesPalette}"
+                           IsSelectionEnabled="True"
+                           Background="Transparent"
+                           DependentValuePath="Value"
+                           IndependentValuePath="Key"
+                           Padding="5" />
+        </ctk:Chart>
+        <ctk:Chart Title="Total Core Value"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="0"
+                   Grid.Column="1">
+            <ctk:AreaSeries ItemsSource="{Binding TotalCoreValueProgression, IsAsync=True}"
+                            DataPointStyle="{StaticResource CoreAreaDataPointStyle}"
+                            IsSelectionEnabled="True"
+                            Background="Transparent"
+                            DependentValuePath="Value"
+                            IndependentValuePath="Key"
+                            Padding="5">
+                <ctk:AreaSeries.IndependentAxis>
+                    <ctk:CategoryAxis Orientation="X"
+                                      AxisLabelStyle="{StaticResource RotateAxisStyle}" />
+                </ctk:AreaSeries.IndependentAxis>
+            </ctk:AreaSeries>
+        </ctk:Chart>
+        <ctk:Chart Title="Number of Units in Core"
+                   Margin="5"
+                   Foreground="{StaticResource MainOrangeBrush}"
+                   Grid.Row="1"
+                   Grid.Column="1">
+            <ctk:AreaSeries ItemsSource="{Binding NumUnitsInCoreProgression, IsAsync=True}"
+                            DataPointStyle="{StaticResource CoreAreaDataPointStyle}"
+                            IsSelectionEnabled="True"
+                            Background="Transparent"
+                            DependentValuePath="Value"
+                            IndependentValuePath="Key"
+                            Padding="5">
+                <ctk:AreaSeries.IndependentAxis>
+                    <ctk:CategoryAxis Orientation="X"
+                                      AxisLabelStyle="{StaticResource RotateAxisStyle}" />
+                </ctk:AreaSeries.IndependentAxis>
+            </ctk:AreaSeries>
+        </ctk:Chart>
+    </Grid>
+</UserControl>

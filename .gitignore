@@ -1,0 +1,8 @@
+_ReSharper.DossierTool/*
+*.user
+*/bin/*
+*.suo
+*/obj/*
+*.GhostDoc.*
+DossierTool/Content/*
+packages/*

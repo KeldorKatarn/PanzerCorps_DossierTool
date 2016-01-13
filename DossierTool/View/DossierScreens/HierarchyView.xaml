@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="DossierTool.View.DossierScreens.HierarchyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="clr-namespace:DossierTool.View.Helpers"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:dossierScreens="clr-namespace:DossierTool.ViewModel.DossierScreens;assembly=DossierTool.ViewModel"
+             xmlns:decorators="clr-namespace:DossierTool.ViewModel.Decorators;assembly=DossierTool.ViewModel"
+             xmlns:valueConverters="clr-namespace:DossierTool.View.ValueConverters" mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance dossierScreens:HierarchyViewModel}">
+    <AdornerDecorator>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0"
+                       LastChildFill="True">
+                <WrapPanel DockPanel.Dock="Top"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="5">
+                    <Button x:Name="AddUnit"
+                            Content="{StaticResource AddUnitImage}"
+                            ToolTip="Add Unit"
+                            Height="Auto"
+                            Width="70"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="2" />
+                    <Button x:Name="AddHierarchyLevel"
+                            Content="{StaticResource AddHigherUnitImage}"
+                            ToolTip="Add Hierarchy Level"
+                            Height="Auto"
+                            Width="70"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="2" />
+                    <Button x:Name="DeleteUnit"
+                            Content="{StaticResource DeleteImage}"
+                            ToolTip="Delete Unit or Hierarchy Level"
+                            Height="Auto"
+                            Width="70"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Padding="2" />
+                </WrapPanel>
+
+                <TreeView VerticalAlignment="Stretch"
+                          Margin="0"
+                          ItemsSource="{Binding RootUnit.Subordinates, Mode=OneWay}"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Left"
+                          VerticalContentAlignment="Top"
+                          ItemContainerStyle="{StaticResource TreeViewItemStyle}"
+                          PreviewMouseLeftButtonDown="TreePreviewMouseLeftButtonDown"
+                          PreviewMouseMove="TreeMouseMove"
+                          Drop="DropTreeDrop"
+                          DragEnter="DropTreeDragEnter"
+                          TreeViewItem.Selected="OnItemSelected"
+                          AllowDrop="True"
+                          IsManipulationEnabled="True">
+                    <i:Interaction.Behaviors>
+                        <helpers:BindableSelectedItemBehavior SelectedItem="{Binding SelectedUnit, Mode=TwoWay}" />
+                    </i:Interaction.Behaviors>
+                    <TreeView.Resources>
+                        <valueConverters:BoolToColorConverter x:Key="HigherColorConverter">
+                            <valueConverters:BoolToColorConverter.OnTrueColor>
+                                <SolidColorBrush Color="{DynamicResource BlackColor}" />
+                            </valueConverters:BoolToColorConverter.OnTrueColor>
+                            <valueConverters:BoolToColorConverter.OnFalseColor>
+                                <SolidColorBrush Color="{DynamicResource MainOrangeColor}" />
+                            </valueConverters:BoolToColorConverter.OnFalseColor>
+                        </valueConverters:BoolToColorConverter>
+                        <valueConverters:BoolToColorConverter x:Key="UnitColorConverter">
+                            <valueConverters:BoolToColorConverter.OnTrueColor>
+                                <SolidColorBrush Color="{DynamicResource BlackColor}" />
+                            </valueConverters:BoolToColorConverter.OnTrueColor>
+                            <valueConverters:BoolToColorConverter.OnFalseColor>
+                                <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+                            </valueConverters:BoolToColorConverter.OnFalseColor>
+                        </valueConverters:BoolToColorConverter>
+                        <HierarchicalDataTemplate DataType="{x:Type decorators:HigherUnitDecorator}"
+                                                  ItemsSource="{Binding Subordinates}">
+                            <TextBlock Text="{Binding Name}"
+                                       Foreground="{Binding IsSelected, Converter={StaticResource HigherColorConverter}}"
+                                       FontStyle="Italic"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="2,0,5,0" />
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type decorators:UnitDecorator}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding TypeIcon}"
+                                       CacheMode="BitmapCache"
+                                       Height="15"
+                                       Stretch="Uniform"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+                                <Image Source="{Binding NationalityIcon}"
+                                       CacheMode="BitmapCache"
+                                       Height="10"
+                                       Stretch="Uniform"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="{Binding IsSelected, Converter={StaticResource UnitColorConverter}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Margin="2,0,5,0" />
+                                <StackPanel Orientation="Horizontal"
+                                            ToolTip="{Binding CurrentExperience}">
+                                    <Image Source="/Content/UI/star5.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentExperience, Converter={StaticResource GreaterOrEqualToVisibilityConverter}, ConverterParameter=100}" />
+                                    <Image Source="/Content/UI/star5.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentExperience, Converter={StaticResource GreaterOrEqualToVisibilityConverter}, ConverterParameter=200}" />
+                                    <Image Source="/Content/UI/star5.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentExperience, Converter={StaticResource GreaterOrEqualToVisibilityConverter}, ConverterParameter=300}" />
+                                    <Image Source="/Content/UI/star5.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentExperience, Converter={StaticResource GreaterOrEqualToVisibilityConverter}, ConverterParameter=400}" />
+                                    <Image Source="/Content/UI/star5.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentExperience, Converter={StaticResource GreaterOrEqualToVisibilityConverter}, ConverterParameter=500}" />
+                                </StackPanel>
+                                <Image Source="/Content/UI/icon-medal.png"
+                                       CacheMode="BitmapCache"
+                                       Height="10"
+                                       Stretch="Uniform"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       ToolTip="{Binding CurrentHighestAward.Key}"
+                                       Visibility="{Binding CurrentHighestAward.Value, Converter={StaticResource NoneToInvisibileConverter}}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.ToolTip>
+                                        <MultiBinding Converter="{StaticResource ConcatenationConverter}">
+                                            <Binding Path="CurrentFirstHero.Key" />
+                                            <Binding Path="CurrentSecondHero.Key" />
+                                            <Binding Path="CurrentThirdHero.Key" />
+                                        </MultiBinding>
+                                    </StackPanel.ToolTip>
+                                    <Image Source="/Content/UI/icon-hero.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentFirstHero.Value, Converter={StaticResource NoneToInvisibileConverter}}" />
+                                    <Image Source="/Content/UI/icon-hero.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentSecondHero.Value, Converter={StaticResource NoneToInvisibileConverter}}" />
+                                    <Image Source="/Content/UI/icon-hero.png"
+                                           CacheMode="BitmapCache"
+                                           Height="10"
+                                           Stretch="Uniform"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Visibility="{Binding CurrentThirdHero.Value, Converter={StaticResource NoneToInvisibileConverter}}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="0"
+                          HorizontalAlignment="Right"
+                          Background="{StaticResource ShadeBrush}"
+                          Width="2" />
+
+            <TabControl x:Name="Items"
+                        Grid.Column="1" />
+        </Grid>
+    </AdornerDecorator>
+</UserControl>

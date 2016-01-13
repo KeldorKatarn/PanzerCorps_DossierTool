@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="DossierTool.View.DossierScreens.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dossierScreens="clr-namespace:DossierTool.ViewModel.DossierScreens;assembly=DossierTool.ViewModel"
+             xmlns:helpers="clr-namespace:DossierTool.View.Helpers"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+             d:DesignHeight="800"
+             d:DesignWidth="600"
+             d:DataContext="{d:DesignInstance dossierScreens:MainViewModel}">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        <AdornerDecorator>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="20">
+                    <Label Content="Dossier Name:"
+                           Foreground="{StaticResource MainOrangeBrush}"
+                           FontSize="28"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top" />
+                    <Grid Margin="20, 0">
+                        <TextBox Text="{helpers:TextBoxBinding Path=DossierName}"
+                                 Height="41"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 FontSize="28"
+                                 Width="391"
+                                 Visibility="{Binding IsEditingName, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Label Content="{Binding DossierName}"
+                               Height="41"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               FontSize="28"
+                               Width="436"
+                               Visibility="{Binding IsEditingName, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+                    </Grid>
+
+                    <Grid>
+                        <Button Content="{StaticResource RenameImage}"
+                                cal:Message.Attach="StartRenaming"
+                                ToolTip="Rename dossier"
+                                Height="40"
+                                Width="40"
+                                Visibility="{Binding IsEditingName, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                        <StackPanel Orientation="Horizontal"
+                                    Visibility="{Binding IsEditingName, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Button Content="{StaticResource OkImage}"
+                                    cal:Message.Attach="AcceptRenaming"
+                                    ToolTip="OK"
+                                    IsDefault="True"
+                                    Height="40"
+                                    Width="40"
+                                    Margin="5, 0" />
+                            <Button Content="{StaticResource CancelImage}"
+                                    cal:Message.Attach="CancelRenaming"
+                                    ToolTip="Cancel"
+                                    IsCancel="True"
+                                    Height="40"
+                                    Width="40"
+                                    Margin="5, 0" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Image Grid.Row="1"
+                       Source="{StaticResource DecisiveVictoryImageSource}"
+                       CacheMode="BitmapCache"
+                       HorizontalAlignment="Left"
+                       Stretch="None"
+                       VerticalAlignment="Top"
+                       Width="800"
+                       Height="600"
+                       Margin="20" />
+            </Grid>
+        </AdornerDecorator>
+    </ScrollViewer>
+</UserControl>

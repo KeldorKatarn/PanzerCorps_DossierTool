@@ -1,0 +1,249 @@
+﻿<UserControl x:Class="DossierTool.View.DossierScreens.UnitDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dossierScreens="clr-namespace:DossierTool.ViewModel.DossierScreens;assembly=DossierTool.ViewModel"
+             xmlns:helpers="clr-namespace:DossierTool.ViewModel.Helpers;assembly=DossierTool.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance dossierScreens:UnitDataViewModel}">
+    <UserControl.Resources>
+        <Style x:Key="LeftCellStyle"
+               TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment"
+                    Value="Left" />
+        </Style>
+        <Style x:Key="CenteredCellStyle"
+               TargetType="DataGridCell">
+            <Setter Property="TextBlock.TextAlignment"
+                    Value="Center" />
+        </Style>
+        <Style x:Key='CenteredColumnHeaderStyle'
+               TargetType='{x:Type DataGridColumnHeader}'
+               BasedOn='{StaticResource ColumnHeaderStyle}'>
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,2,5,2" />
+            <Setter Property="FontSize"
+                    Value="13" />
+        </Style>
+        <Style x:Key='LeftAlignedColumnHeaderStyle'
+               TargetType='{x:Type DataGridColumnHeader}'
+               BasedOn='{StaticResource ColumnHeaderStyle}'>
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,2,5,2" />
+            <Setter Property="FontSize"
+                    Value="13" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding UnitData, IsAsync=True}"
+                  AutoGenerateColumns="False"
+                  Background="Transparent"
+                  CellStyle="{StaticResource CenteredCellStyle}"
+                  ColumnHeaderStyle="{StaticResource CenteredColumnHeaderStyle}"
+                  FrozenColumnCount="1"
+                  IsReadOnly="True"
+                  SelectionMode="Extended"
+                  FontFamily="{StaticResource DefaultFont}"
+                  FontSize="12"
+                  RowHeaderWidth="0"
+                  SelectionUnit="FullRow"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Top"
+                  Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"
+                                    IsReadOnly="True"
+                                    CellStyle="{StaticResource LeftCellStyle}"
+                                    HeaderStyle="{StaticResource LeftAlignedColumnHeaderStyle}"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}" />
+                <DataGridTextColumn Header="Type"
+                                    Binding="{Binding Type.Key}"
+                                    SortMemberPath="Type.Value"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}" />
+                <DataGridTextColumn Header="Equipment"
+                                    Binding="{Binding EquipmentName}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}" />
+                <DataGridTextColumn Binding="{Binding Experience}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/unitinfo/pzsystem_uistar_1.png"
+                               CacheMode="BitmapCache"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="XP" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Movement}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_moves.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Movement" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Spotting}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_LOS.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Spotting" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Range}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_range.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Range" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Initiative}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_initiative.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Initiative" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding SoftAttack, Converter={StaticResource UnitAttackValueConverter}}"
+                                    SortMemberPath="AbsSoftAttack"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_softatt.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Soft Attack" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding HardAttack, Converter={StaticResource UnitAttackValueConverter}}"
+                                    SortMemberPath="AbsHardAttack"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_hardatt.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Hard Attack" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AirAttack, Converter={StaticResource UnitAttackValueConverter}}"
+                                    SortMemberPath="AbsAirAttack"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_airatt.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Air Attack" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn
+                    Binding="{Binding NavalAttack, Converter={StaticResource UnitAttackValueConverter}}"
+                    SortMemberPath="AbsNavalAttack"
+                    IsReadOnly="True"
+                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_navatt.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Naval Attack" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding GroundDefense}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_grounddef.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Ground Defense" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding AirDefense}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_airdef.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Air Defense" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding CloseDefense}"
+                                    IsReadOnly="True"
+                                    d:DataContext="{d:DesignInstance helpers:UnitData}">
+                    <DataGridTextColumn.Header>
+                        <Image Source="/Content/UI/stats/icon_closedef.png"
+                               CacheMode="BitmapCache"
+                               Height="30"
+                               Width="30"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               ToolTip="Close Defense" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

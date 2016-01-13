@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Application x:Class="DossierTool.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:dt="clr-namespace:DossierTool">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View\Resources\ImageResources.xaml" />
+                <ResourceDictionary Source="View\Resources\StyleResources.xaml" />
+                <ResourceDictionary Source="View\Resources\ValueConverters.xaml" />
+                <ResourceDictionary Source="Themes\ExpressionDark.xaml" />
+                <ResourceDictionary>
+                    <dt:Bootstrapper x:Key="Bootstrapper" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
